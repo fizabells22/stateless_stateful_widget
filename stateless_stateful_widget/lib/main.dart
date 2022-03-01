@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Konverter Suhu',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -43,12 +43,41 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextFormField(
-                decoration: const InputDecoration( hintText: "Masukkan Suhu Dalam Celcius"),
-                controller: etInput,
-                keyboardType: TextInputType.number,
+              Input(etInput: etInput),
+              Output(kelvin: _kelvin, reamur: _reamur),
+              Column(
+              crossAxisAlignment : CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  height: 40,
+                  child: TextButton(style: TextButton.styleFrom(backgroundColor: Colors.blue,),
+                  onPressed: konversisuhu,
+                  child: const Text("Konversi Suhu", style : TextStyle(color: Colors.white),
+                ),
+                  ),
+                ),
+              ],
               ),
-            Row(
+            ],
+          ),
+          ),),);
+  }}
+
+      class Output extends StatelessWidget {
+        const Output({
+          Key? key,
+          required double kelvin,
+          required double reamur,  
+        })  :_kelvin = kelvin,
+            _reamur = reamur,
+            super(key:key);
+
+        final double _kelvin;
+        final double _reamur;
+
+          @override
+          Widget build(BuildContext context){      
+            return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Column(
@@ -56,8 +85,11 @@ class _MyAppState extends State<MyApp> {
                         const Text("Suhu Dalam Kelvin", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w200,
                           ),
                         ),
-                        Text("$_kelvin", style: const TextStyle( fontSize: 40 , fontWeight: FontWeight.w400,
+                        Container(
+                        margin : const EdgeInsets.all(10),
+                        child:Text("$_kelvin", style: const TextStyle( fontSize: 40 , fontWeight: FontWeight.w400,
                           ),
+                        ),
                         ),
                       ],
                     ),
@@ -66,29 +98,33 @@ class _MyAppState extends State<MyApp> {
                         const Text("Suhu Dalam Reamur", style: TextStyle(fontSize: 18,fontWeight: FontWeight.w200,
                           ),
                         ),
-                        Text("$_reamur", style: const TextStyle(fontSize: 40, fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-          Container(
-          width: double.infinity,
-          height : 50,
-          child : RaisedButton(
-          textColor: Colors.white,
-          onPressed: konversisuhu,
-          color : Colors.blue,
-            child : const Text(
-              "Konversi Suhu",
-              style: TextStyle(fontSize: 20),
+                        Container(
+                        margin : const EdgeInsets.all(10),
+                        child: Text("$_reamur", style: const TextStyle(fontSize: 40, fontWeight: FontWeight.w400,
             ),
           ),
-          ),
+                        ),
             ],
-        ),),
-      ),
+          ),
+        ],
+    );
+  }
+}
+
+  class Input extends StatelessWidget {
+        const Input({
+        Key? key,
+        required this.etInput,
+       }) : super (key: key);
+
+        final TextEditingController etInput;
+        
+        @override
+        Widget build(BuildContext context){
+         return TextFormField(
+                decoration: const InputDecoration( hintText: "Masukkan Suhu Dalam Celcius"),
+                controller: etInput,
+                keyboardType: TextInputType.number,
     );
   }
 }
